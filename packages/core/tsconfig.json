@@ -1,0 +1,5 @@
+{
+  "extends": "@protokoll/tsconfig/internal-package.json",
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

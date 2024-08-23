@@ -1,0 +1,10 @@
+{
+  "name": "@protokoll/tsconfig",
+  "description": "protokoll Typescript Config",
+  "author": "Martin Auer",
+  "private": true,
+  "version": "0.2.1",
+  "files": [
+    "*.json"
+  ]
+}

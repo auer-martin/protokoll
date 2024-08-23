@@ -1,0 +1,33 @@
+{
+  "name": "@protokoll/openid4vc",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=20.16.0"
+  },
+  "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247",
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "git clean -xdf node_modules && rm -rf .turbo",
+    "clean:workspaces": "turbo run clean",
+    "dev": "turbo watch dev",
+    "format": "turbo run format --continue -- --cache --cache-location .cache/.prettiercache",
+    "format:fix": "turbo run format --continue -- --write --cache --cache-location .cache/.prettiercache",
+    "lint": "turbo run lint --continue -- --cache --cache-location .cache/.eslintcache",
+    "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location .cache/.eslintcache",
+    "lint:ws": "pnpm dlx sherif@latest",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "postinstall": "pnpm lint:ws",
+    "release": "pnpm changeset publish"
+  },
+  "devDependencies": {
+    "@protokoll/prettier-config": "workspace:*",
+    "@changesets/cli": "^2.27.7",
+    "@turbo/gen": "^2.0.9",
+    "prettier": "catalog:",
+    "turbo": "^2.0.9",
+    "typescript": "catalog:"
+  },
+  "prettier": "@protokoll/prettier-config"
+}

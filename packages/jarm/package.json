@@ -1,0 +1,40 @@
+{
+  "name": "@protokoll/jarm",
+  "description": "JWT Secured Authorization Response Mode (JARM)",
+  "author": "Auer Martin",
+  "version": "0.2.1",
+  "private": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.js",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "build": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@protokoll/core": "workspace:*",
+    "valibot": "catalog:"
+  },
+  "devDependencies": {
+    "@protokoll/eslint-config": "workspace:*",
+    "@protokoll/prettier-config": "workspace:*",
+    "@protokoll/tsconfig": "workspace:*",
+    "@types/node": "^22.0.2",
+    "eslint": "catalog:",
+    "jose": "^5.6.3",
+    "msw": "^2.3.5",
+    "prettier": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@protokoll/prettier-config"
+}

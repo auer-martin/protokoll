@@ -1,0 +1,39 @@
+{
+  "name": "@protokoll/core",
+  "description": "Protokoll Core",
+  "author": "Auer Martin",
+  "version": "0.2.1",
+  "private": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.js",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo node_modules dist",
+    "build": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/**/*.test.ts"
+  },
+  "dependencies": {
+    "jwt-decode": "^4.0.0",
+    "valibot": "catalog:"
+  },
+  "devDependencies": {
+    "@protokoll/eslint-config": "workspace:*",
+    "@protokoll/prettier-config": "workspace:*",
+    "@protokoll/tsconfig": "workspace:*",
+    "@types/node": "^22.0.2",
+    "jose": "^5.6.3",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@protokoll/prettier-config"
+}
