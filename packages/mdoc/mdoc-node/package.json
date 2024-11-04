@@ -2,7 +2,7 @@
   "name": "@protokoll/mdoc-node",
   "description": "Protokoll Mdoc and MDL node implementation",
   "author": "Martin Auer",
-  "version": "0.2.36",
+  "version": "0.2.37",
   "private": false,
   "main": "./dist/src/index.js",
   "module": "./dist/src/index.js",

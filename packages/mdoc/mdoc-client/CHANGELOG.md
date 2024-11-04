@@ -1,5 +1,12 @@
 # @protokoll/mdoc-client
 
+## 0.2.37
+
+### Patch Changes
+
+- 31154d4: feat: throw when impossible to limit the disclosure to an input descriptor
+  - @protokoll/core@0.2.37
+
 ## 0.2.36
 
 ### Patch Changes
