@@ -170,7 +170,7 @@ describe('issuing a device response with MAC authentication', () => {
     })
 
     it('should generate a device mac without payload', () => {
-      expect(parsedDocument.deviceSigned.deviceAuth.deviceMac?.payload).toBeUndefined()
+      expect(parsedDocument.deviceSigned.deviceAuth.deviceMac?.payload).toBeNull()
     })
 
     it('should contain the validity info', () => {
@@ -285,7 +285,7 @@ describe('issuing a device response with MAC authentication', () => {
     })
 
     it('should generate a device mac without payload', () => {
-      expect(parsedDocument.deviceSigned.deviceAuth.deviceMac?.payload).toBeUndefined()
+      expect(parsedDocument.deviceSigned.deviceAuth.deviceMac?.payload).toBeNull()
     })
 
     it('should contain the validity info', () => {

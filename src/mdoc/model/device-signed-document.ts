@@ -20,14 +20,15 @@ export class DeviceSignedDocument extends IssuerSignedDocument {
   override prepare(): Map<string, unknown> {
     const doc = super.prepare()
 
-    const deviceSignature = this.deviceSigned.deviceAuth.deviceSignature?.getContentForEncoding()
-    const deviceMac = this.deviceSigned.deviceAuth.deviceMac?.getContentForEncoding()
+    const deviceSignature: Array<unknown> | undefined =
+      this.deviceSigned.deviceAuth.deviceSignature?.getContentForEncoding()
+    const deviceMac: Array<unknown> | undefined = this.deviceSigned.deviceAuth.deviceMac?.getContentForEncoding()
     // detach payload
     if (deviceMac) {
-      deviceMac[2] = undefined
+      deviceMac[2] = null
     }
     if (deviceSignature) {
-      deviceSignature[2] = undefined
+      deviceSignature[2] = null
     }
     //
     doc.set('deviceSigned', {

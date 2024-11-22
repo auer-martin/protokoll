@@ -169,7 +169,7 @@ describe('issuing a device response', () => {
     })
 
     it('should generate the signature without payload', () => {
-      expect(parsedDocument.deviceSigned.deviceAuth.deviceSignature?.payload).toBeUndefined()
+      expect(parsedDocument.deviceSigned.deviceAuth.deviceSignature?.payload).toBeNull()
     })
   })
 
@@ -278,7 +278,7 @@ describe('issuing a device response', () => {
     })
 
     it('should generate the signature without payload', () => {
-      expect(parsedDocument.deviceSigned.deviceAuth.deviceSignature?.payload).toBeUndefined()
+      expect(parsedDocument.deviceSigned.deviceAuth.deviceSignature?.payload).toBeNull()
     })
   })
 
@@ -415,7 +415,7 @@ describe('issuing a device response', () => {
     })
 
     it('should generate the signature without payload', () => {
-      expect(parsedDocument.deviceSigned.deviceAuth.deviceSignature?.payload).toBeUndefined()
+      expect(parsedDocument.deviceSigned.deviceAuth.deviceSignature?.payload).toBeNull()
     })
   })
 })
