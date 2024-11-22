@@ -165,9 +165,7 @@ describe('issuing a device response', () => {
     })
 
     it('should contain the device namespaces', () => {
-      expect(parsedDocument.getDeviceNameSpace('com.foobar-device')).toEqual({
-        test: 1234,
-      })
+      expect(parsedDocument.getDeviceNameSpace('com.foobar-device')).toEqual(new Map([['test', 1234]]))
     })
 
     it('should generate the signature without payload', () => {
@@ -276,9 +274,7 @@ describe('issuing a device response', () => {
     })
 
     it('should contain the device namespaces', () => {
-      expect(parsedDocument.getDeviceNameSpace('com.foobar-device')).toEqual({
-        test: 1234,
-      })
+      expect(parsedDocument.getDeviceNameSpace('com.foobar-device')).toEqual(new Map([['test', 1234]]))
     })
 
     it('should generate the signature without payload', () => {
@@ -389,28 +385,33 @@ describe('issuing a device response', () => {
 
     it('should contain all requested claims', () => {
       const namespaces = parsedDocument.allIssuerSignedNamespaces
-      expect(namespaces).toStrictEqual({
-        'org.iso.18013.5.1': {
-          family_name: 'Jones',
-          birth_date: '2007-03-25',
-          document_number: '01-856-5050',
-          given_name: 'Ava',
-          driving_privileges: [expect.any(Map)],
-          expiry_date: '2028-09-30',
-          issue_date: '2023-09-01',
-          issuing_authority: 'NY DMV',
-          issuing_country: 'US',
-          issuing_jurisdiction: 'New York',
-          portrait: 'bstr',
-          un_distinguishing_sign: 'tbd-us.ny.dmv',
-        },
-      })
+      expect(namespaces).toStrictEqual(
+        new Map([
+          [
+            'org.iso.18013.5.1',
+            new Map(
+              Object.entries({
+                family_name: 'Jones',
+                birth_date: '2007-03-25',
+                document_number: '01-856-5050',
+                given_name: 'Ava',
+                driving_privileges: [expect.any(Map)],
+                expiry_date: '2028-09-30',
+                issue_date: '2023-09-01',
+                issuing_authority: 'NY DMV',
+                issuing_country: 'US',
+                issuing_jurisdiction: 'New York',
+                portrait: 'bstr',
+                un_distinguishing_sign: 'tbd-us.ny.dmv',
+              })
+            ),
+          ],
+        ])
+      )
     })
 
     it('should contain the device namespaces', () => {
-      expect(parsedDocument.getDeviceNameSpace('com.foobar-device')).toEqual({
-        test: 1234,
-      })
+      expect(parsedDocument.getDeviceNameSpace('com.foobar-device')).toEqual(new Map([['test', 1234]]))
     })
 
     it('should generate the signature without payload', () => {

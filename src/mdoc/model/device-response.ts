@@ -38,7 +38,7 @@ export class DeviceResponse {
   private sessionTranscriptBytes?: Uint8Array
   private useMac = true
   private devicePrivateKey?: JWK
-  public nameSpaces: Record<string, Record<string, unknown>> = {}
+  public nameSpaces: Map<string, Map<string, unknown>> = new Map()
   private alg?: SupportedAlgs
   private macAlg?: MacSupportedAlgs
   private ephemeralPublicKey?: JWK
@@ -198,11 +198,11 @@ export class DeviceResponse {
    * Add a namespace to the device response.
    *
    * @param {string} nameSpace - The name space to add to the device response.
-   * @param {Record<string, any>} data - The data to add to the name space.
+   * @param {Record<string, any> | Map<string, unknown>} data - The data to add to the name space.
    * @returns {DeviceResponse}
    */
-  public addDeviceNameSpace(nameSpace: string, data: Record<string, unknown>): DeviceResponse {
-    this.nameSpaces[nameSpace] = data
+  public addDeviceNameSpace(nameSpace: string, data: Map<string, unknown> | Record<string, unknown>): DeviceResponse {
+    this.nameSpaces.set(nameSpace, data instanceof Map ? data : new Map(Object.entries(data)))
     return this
   }
 
@@ -263,7 +263,7 @@ export class DeviceResponse {
         const isDeviceRequest = (r: InputDescriptor | DocRequest): r is DocRequest => 'itemsRequest' in request
 
         let mdoc: IssuerSignedDocument
-        let disclosedNameSpaces: Record<string, IssuerSignedItem[]>
+        let disclosedNameSpaces: Map<string, IssuerSignedItem[]>
         if (isDeviceRequest(request)) {
           const docType = request.itemsRequest.data.docType
           mdoc = findMdocMatchingDocType(this.mdoc, docType)

@@ -48,23 +48,23 @@ export class DeviceSignedDocument extends IssuerSignedDocument {
    * Helper method to get the values in a namespace as a JS object.
    *
    * @param {string} namespace - The namespace to add.
-   * @returns {Record<string, unknown>} - The values in the namespace as an object
+   * @returns {Map<string, unknown>} - The values in the namespace as an object
    */
-  getDeviceNameSpace(namespace: string): Record<string, unknown> | undefined {
-    return this.deviceSigned.nameSpaces[namespace]
+  getDeviceNameSpace(namespace: string): Map<string, unknown> | undefined {
+    return this.deviceSigned.nameSpaces.get(namespace)
   }
 
   /**
    * List of namespaces in the document.
    */
   get deviceSignedNameSpaces(): string[] {
-    return Object.keys(this.deviceSigned.nameSpaces)
+    return Array.from(this.deviceSigned.nameSpaces.keys())
   }
 
   public get allDeviceSignedNamespaces(): MdocNameSpaces {
     const namespaces = this.deviceSignedNameSpaces
 
-    return Object.fromEntries(
+    return new Map(
       namespaces.map((namespace) => {
         const namespaceValues = this.getDeviceNameSpace(namespace)
         if (!namespaceValues) {

@@ -11,9 +11,9 @@ export interface ValidityInfo {
   expectedUpdate?: Date
 }
 
-export type IssuerNameSpaces = Record<string, IssuerSignedItem[]>
+export type IssuerNameSpaces = Map<string, IssuerSignedItem[]>
 
-export type MdocNameSpaces = Record<string, Record<string, unknown>>
+export type MdocNameSpaces = Map<string, Map<string, unknown>>
 
 export interface IssuerSigned {
   issuerAuth: IssuerAuth
@@ -26,7 +26,7 @@ export type DeviceAuth =
 
 export interface DeviceSigned {
   deviceAuth: DeviceAuth
-  nameSpaces: Record<string, Record<string, unknown>>
+  nameSpaces: Map<string, Map<string, unknown>>
 }
 
 export type RawIndexedDataItem = IssuerSignedDataItem[]

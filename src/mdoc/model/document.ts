@@ -60,7 +60,7 @@ const addYears = (date: Date, years: number): Date => {
  */
 export class Document {
   readonly docType: DocType
-  #issuerNameSpaces: IssuerNameSpaces = {}
+  #issuerNameSpaces: IssuerNameSpaces = new Map()
   #deviceKeyInfo?: DeviceKeyInfo
   #validityInfo: ValidityInfo = {
     signed: new Date(),
@@ -94,7 +94,7 @@ export class Document {
       this.validateValues(values)
     }
 
-    const namespaceRecord = this.#issuerNameSpaces[namespace] ?? []
+    const namespaceRecord = this.#issuerNameSpaces.get(namespace) ?? []
 
     const addAttribute = (key: string, value: unknown) => {
       let elementValue = value
@@ -137,7 +137,7 @@ export class Document {
       }
     }
 
-    this.#issuerNameSpaces[namespace] = namespaceRecord
+    this.#issuerNameSpaces.set(namespace, namespaceRecord)
 
     return this
   }
@@ -149,7 +149,7 @@ export class Document {
    * @returns {Record<string, any>} - The values in the namespace as an object
    */
   getIssuerNameSpace(namespace: string): Record<string, unknown> | undefined {
-    const nameSpace = this.#issuerNameSpaces[namespace]
+    const nameSpace = this.#issuerNameSpaces.get(namespace)
     if (!nameSpace) return undefined
     return Object.fromEntries(nameSpace.map((item) => [item.elementIdentifier, item.elementValue]))
   }
@@ -244,7 +244,7 @@ export class Document {
 
     const valueDigests = new Map(
       await Promise.all(
-        Object.entries(this.#issuerNameSpaces).map(async ([namespace, items]) => {
+        Array.from(this.#issuerNameSpaces.entries()).map(async ([namespace, items]) => {
           const digestMap = new Map<number, Uint8Array>()
           await Promise.all(
             items.map(async (item, index) => {

@@ -16,9 +16,9 @@ describe('parse an issuer signed mdoc', () => {
   })
 
   it('should contain the given name', () => {
-    const givenName = parsed.documents[0]?.issuerSigned.nameSpaces['org.iso.18013.5.1']?.find(
-      (e) => e.elementIdentifier === 'given_name'
-    )?.elementValue
+    const givenName = parsed.documents[0]?.issuerSigned.nameSpaces
+      .get('org.iso.18013.5.1')
+      ?.find((e) => e.elementIdentifier === 'given_name')?.elementValue
     expect(givenName).toBe('John')
   })
 

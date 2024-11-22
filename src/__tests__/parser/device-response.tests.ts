@@ -35,9 +35,9 @@ describe('parse DeviceResponse Example 1', () => {
     })
 
     it('should contain the first name', () => {
-      const givenName = parsed.documents[0]?.issuerSigned.nameSpaces['eu.europa.ec.eudiw.pid.1']?.find(
-        (e) => e.elementIdentifier === 'given_name'
-      )?.elementValue
+      const givenName = parsed.documents[0]?.issuerSigned.nameSpaces
+        .get('eu.europa.ec.eudiw.pid.1')
+        ?.find((e) => e.elementIdentifier === 'given_name')?.elementValue
       expect(givenName).toBe('Mascetti')
     })
 

@@ -8,12 +8,12 @@ import type { DocType, IssuerNameSpaces } from './types.js'
 export const limitDisclosureToDeviceRequestNameSpaces = (
   mdoc: IssuerSignedDocument,
   deviceRequestNameSpaces: DeviceRequestNameSpaces
-): Record<string, IssuerSignedItem[]> => {
-  const nameSpaces: Record<string, IssuerSignedItem[]> = {}
+): Map<string, IssuerSignedItem[]> => {
+  const nameSpaces: Map<string, IssuerSignedItem[]> = new Map()
 
-  for (const [nameSpace, nameSpaceFields] of Object.entries(deviceRequestNameSpaces)) {
-    const nsAttrs = mdoc.issuerSigned.nameSpaces[nameSpace] ?? []
-    const digests = Object.entries(nameSpaceFields).map(([elementIdentifier, _]) => {
+  for (const [nameSpace, nameSpaceFields] of deviceRequestNameSpaces.entries()) {
+    const nsAttrs = mdoc.issuerSigned.nameSpaces.get(nameSpace) ?? []
+    const digests = Array.from(nameSpaceFields.entries()).map(([elementIdentifier, _]) => {
       const digest = prepareDigest(elementIdentifier, nsAttrs)
       if (!digest) {
         throw new Error(`No matching field found for '${elementIdentifier}'`)
@@ -21,7 +21,7 @@ export const limitDisclosureToDeviceRequestNameSpaces = (
       return digest
     })
 
-    nameSpaces[nameSpace] = digests
+    nameSpaces.set(nameSpace, digests)
   }
   return nameSpaces
 }
@@ -42,7 +42,7 @@ const prepareDigestForInputDescriptor = (
 ): { nameSpace: string; digest: IssuerSignedItem } | null => {
   for (const path of paths) {
     const { nameSpace, elementIdentifier } = parsePath(path)
-    const nsAttrs = issuerNameSpaces[nameSpace] ?? []
+    const nsAttrs = issuerNameSpaces.get(nameSpace) ?? []
 
     const digest = prepareDigest(elementIdentifier, nsAttrs)
     if (digest) return { nameSpace, digest }
@@ -127,8 +127,8 @@ export const findMdocMatchingDocType = (mdoc: MDoc, docType: DocType) => {
 export const limitDisclosureToInputDescriptor = (
   mdoc: IssuerSignedDocument,
   inputDescriptor: InputDescriptor
-): Record<string, IssuerSignedItem[]> => {
-  const nameSpaces: Record<string, IssuerSignedItem[]> = {}
+): Map<string, IssuerSignedItem[]> => {
+  const nameSpaces: Map<string, IssuerSignedItem[]> = new Map()
 
   for (const field of inputDescriptor.constraints.fields) {
     const result = prepareDigestForInputDescriptor(field.path, mdoc.issuerSigned.nameSpaces)
@@ -139,8 +139,9 @@ export const limitDisclosureToInputDescriptor = (
     }
 
     const { nameSpace, digest } = result
-    if (!nameSpaces[nameSpace]) nameSpaces[nameSpace] = []
-    nameSpaces[nameSpace].push(digest)
+    const entry = nameSpaces.get(nameSpace)
+    if (!entry) nameSpaces.set(nameSpace, [digest])
+    else entry.push(digest)
   }
 
   return nameSpaces

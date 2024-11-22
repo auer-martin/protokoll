@@ -19,7 +19,7 @@ export class IssuerSignedDocument {
    */
   public prepare(): Map<string, unknown> {
     const nameSpaces = new Map(
-      Object.entries(this.issuerSigned.nameSpaces).map(([nameSpace, items]) => {
+      Array.from(this.issuerSigned.nameSpaces.entries()).map(([nameSpace, items]) => {
         return [nameSpace, items.map((item) => item.dataItem)] as const
       })
     )
@@ -41,25 +41,26 @@ export class IssuerSignedDocument {
    * Helper method to get the values in a namespace as a JS object.
    *
    * @param {string} namespace - The namespace to add.
-   * @returns {Record<string, unknown>} - The values in the namespace as an object
+   * @returns {Map<string, unknown>} - The values in the namespace as an object
    */
-  getIssuerNameSpace(namespace: string): Record<string, unknown> | undefined {
-    const nameSpace = this.issuerSigned.nameSpaces[namespace]
+  getIssuerNameSpace(namespace: string): Map<string, unknown> | undefined {
+    const nameSpace = this.issuerSigned.nameSpaces.get(namespace)
     if (!nameSpace) return undefined
-    return Object.fromEntries(nameSpace.map((item) => [item.elementIdentifier, item.elementValue]))
+
+    return new Map(nameSpace.map((item) => [item.elementIdentifier, item.elementValue]))
   }
 
   /**
    * List of namespaces in the document.
    */
   get issuerSignedNameSpaces(): string[] {
-    return Object.keys(this.issuerSigned.nameSpaces)
+    return Array.from(this.issuerSigned.nameSpaces.keys())
   }
 
   public get allIssuerSignedNamespaces(): MdocNameSpaces {
     const namespaces = this.issuerSignedNameSpaces
 
-    return Object.fromEntries(
+    return new Map(
       namespaces.map((namespace) => {
         const namespaceValues = this.getIssuerNameSpace(namespace)
         if (!namespaceValues) {

@@ -2196,15 +2196,15 @@ MDoc {
             },
           },
         },
-        "nameSpaces": {
-          "eu.europa.ec.eudiw.pid.1": [
+        "nameSpaces": Map {
+          "eu.europa.ec.eudiw.pid.1" => [
             IssuerSignedItem {},
             IssuerSignedItem {},
             IssuerSignedItem {},
             IssuerSignedItem {},
             IssuerSignedItem {},
           ],
-          "eu.europa.ec.eudiw.pid.it.1": [
+          "eu.europa.ec.eudiw.pid.it.1" => [
             IssuerSignedItem {},
           ],
         },

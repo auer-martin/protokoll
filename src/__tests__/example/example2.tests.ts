@@ -52,7 +52,7 @@ describe('example 2: valid device response with partial disclosure', () => {
       mdocContext
     )
 
-    const numberOfAttributes = documents[0]?.issuerSigned.nameSpaces['org.iso.18013.5.1']?.length
+    const numberOfAttributes = documents[0]?.issuerSigned.nameSpaces.get('org.iso.18013.5.1')?.length
 
     expect(numberOfAttributes).toBe(6)
   })
@@ -72,7 +72,7 @@ describe('example 2: valid device response with partial disclosure', () => {
 
     const ns = 'org.iso.18013.5.1'
     const allFieldValidations =
-      documents[0]?.issuerSigned.nameSpaces[ns]?.map((field) => field.isValid(ns, issuerAuth, mdocContext)) ?? []
+      documents[0]?.issuerSigned.nameSpaces.get(ns)?.map((field) => field.isValid(ns, issuerAuth, mdocContext)) ?? []
 
     const allFieldsAreValid = (await Promise.all(allFieldValidations)).every(Boolean)
 

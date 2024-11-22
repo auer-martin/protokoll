@@ -7,7 +7,7 @@ export const calculateDeviceAutenticationBytes = (
   sessionTranscript: Uint8Array | any,
   docType: string,
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  nameSpaces: Record<string, Record<string, any>>
+  nameSpaces: Map<string, Map<string, any>>
 ): Uint8Array => {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   let decodedSessionTranscript: any
@@ -18,12 +18,11 @@ export const calculateDeviceAutenticationBytes = (
     decodedSessionTranscript = sessionTranscript
   }
 
-  const nameSpacesAsMap = new Map(Object.entries(nameSpaces).map(([ns, items]) => [ns, new Map(Object.entries(items))]))
   const encode = DataItem.fromData([
     'DeviceAuthentication',
     decodedSessionTranscript,
     docType,
-    DataItem.fromData(nameSpacesAsMap),
+    DataItem.fromData(nameSpaces),
   ])
 
   const result = cborEncode(encode)

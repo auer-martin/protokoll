@@ -24,11 +24,18 @@ export class ItemsRequest {
 
   public get data(): ItemsRequestData {
     if (!this.#dataRecord) {
-      this.#dataRecord = cborDecode(this.#dataItem.buffer, {
+      const decoded = cborDecode(this.#dataItem.buffer, {
         tagUint8Array: false,
         useRecords: true,
         mapsAsObjects: true,
-      }) as ItemsRequestData
+      }) as Omit<ItemsRequestData, 'nameSpaces'> & { nameSpaces: Record<string, Record<string, boolean>> }
+
+      this.#dataRecord = {
+        ...decoded,
+        nameSpaces: new Map(
+          Object.entries(decoded.nameSpaces).map(([namespace, values]) => [namespace, new Map(Object.entries(values))])
+        ),
+      }
     }
 
     return this.#dataRecord

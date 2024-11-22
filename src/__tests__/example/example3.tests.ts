@@ -50,7 +50,8 @@ describe('example 3: device response with partial and tampered disclosure', () =
 
     const ns = 'org.iso.18013.5.1'
     expect(
-      await documents[0]?.issuerSigned.nameSpaces[ns]
+      await documents[0]?.issuerSigned.nameSpaces
+        .get(ns)
         ?.find((f) => f.elementIdentifier === 'family_name')
         ?.isValid(ns, issuerAuth, mdocContext)
     ).toBe(false)

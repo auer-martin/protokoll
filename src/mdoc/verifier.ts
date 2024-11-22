@@ -279,7 +279,7 @@ export class Verifier {
     const nameSpaces = mdoc.issuerSigned.nameSpaces ?? {}
 
     await Promise.all(
-      Object.entries(nameSpaces).map(async ([ns, nsItems]) => {
+      Array.from(nameSpaces.entries()).map(async ([ns, nsItems]) => {
         onCheck({
           status: valueDigests?.has(ns) ? 'PASSED' : 'FAILED',
           check: `Issuer Auth must include digests for namespace: ${ns}`,
@@ -476,8 +476,8 @@ export class Verifier {
 
     const attributes = (
       await Promise.all(
-        Object.keys(document.issuerSigned.nameSpaces).map(async (ns) => {
-          const items = document.issuerSigned.nameSpaces[ns] ?? []
+        Array.from(document.issuerSigned.nameSpaces.keys()).map(async (ns) => {
+          const items = document.issuerSigned.nameSpaces.get(ns) ?? []
           return Promise.all(
             items.map(async (item) => {
               const isValid = await item.isValid(ns, issuerAuth, ctx)
@@ -496,8 +496,8 @@ export class Verifier {
 
     const deviceAttributes =
       document instanceof DeviceSignedDocument
-        ? Object.entries(document.deviceSigned.nameSpaces).flatMap(([ns, items]) => {
-            return Object.entries(items).map(([id, value]) => {
+        ? Array.from(document.deviceSigned.nameSpaces.entries()).flatMap(([ns, items]) => {
+            return Array.from(items.entries()).map(([id, value]) => {
               return {
                 ns,
                 id,

@@ -1523,11 +1523,11 @@ MDoc {
             ],
           },
         },
-        "nameSpaces": {
-          "org.custom.test": [
+        "nameSpaces": Map {
+          "org.custom.test" => [
             IssuerSignedItem {},
           ],
-          "org.iso.18013.5.1": [
+          "org.iso.18013.5.1" => [
             IssuerSignedItem {},
             IssuerSignedItem {},
             IssuerSignedItem {},

@@ -106,31 +106,31 @@ describe('issuing an MDOC', () => {
     // @ts-expect error this will work
     const currentAge = new Date(Date.now() - new Date('2007-03-25').getTime()).getFullYear() - 1970
     expect(attrValues).toMatchInlineSnapshot(`
-{
-  "age_over_${currentAge}": true,
-  "age_over_21": ${currentAge >= 21},
-  "birth_date": "2007-03-25",
-  "document_number": "01-856-5050",
-  "driving_privileges": [
-    Map {
-      "vehicle_category_code" => "A",
-      "issue_date" => "2021-09-02",
-      "expiry_date" => "2026-09-20",
-    },
-    Map {
-      "vehicle_category_code" => "B",
-      "issue_date" => "2022-09-02",
-      "expiry_date" => "2027-09-20",
-    },
-  ],
-  "expiry_date": "2028-09-30",
-  "family_name": "Jones",
-  "given_name": "Ava",
-  "issue_date": "2023-09-01",
-  "issuing_authority": "NY DMV",
-  "issuing_country": "US",
-  "portrait": "bstr",
-}
-`)
+      Map {
+        "family_name" => "Jones",
+        "given_name" => "Ava",
+        "birth_date" => "2007-03-25",
+        "age_over_21" => false,
+        "age_over_17" => true,
+        "issue_date" => "2023-09-01",
+        "expiry_date" => "2028-09-30",
+        "issuing_country" => "US",
+        "issuing_authority" => "NY DMV",
+        "document_number" => "01-856-5050",
+        "portrait" => "bstr",
+        "driving_privileges" => [
+          Map {
+            "vehicle_category_code" => "A",
+            "issue_date" => "2021-09-02",
+            "expiry_date" => "2026-09-20",
+          },
+          Map {
+            "vehicle_category_code" => "B",
+            "issue_date" => "2022-09-02",
+            "expiry_date" => "2027-09-20",
+          },
+        ],
+      }
+    `)
   })
 })

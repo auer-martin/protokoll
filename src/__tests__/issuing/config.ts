@@ -108,22 +108,27 @@ export const deviceRequest = DeviceRequest.from('1.0', [
   {
     itemsRequestData: {
       docType: 'org.iso.18013.5.1.mDL',
-      nameSpaces: {
-        'org.iso.18013.5.1': {
-          family_name: false,
-          given_name: true,
-          birth_date: true,
-          issue_date: true,
-          expiry_date: true,
-          issuing_country: true,
-          issuing_authority: true,
-          issuing_jurisdiction: true,
-          document_number: true,
-          portrait: true,
-          driving_privileges: true,
-          un_distinguishing_sign: true,
-        },
-      },
+      nameSpaces: new Map([
+        [
+          'org.iso.18013.5.1',
+          new Map(
+            Object.entries({
+              family_name: false,
+              given_name: true,
+              birth_date: true,
+              issue_date: true,
+              expiry_date: true,
+              issuing_country: true,
+              issuing_authority: true,
+              issuing_jurisdiction: true,
+              document_number: true,
+              portrait: true,
+              driving_privileges: true,
+              un_distinguishing_sign: true,
+            })
+          ),
+        ],
+      ]),
     },
   },
 ])

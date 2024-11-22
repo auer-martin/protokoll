@@ -52,20 +52,7 @@ const namespaceToArray = (entries: RawIndexedDataItem): IssuerSignedItem[] => {
 }
 
 const mapIssuerNameSpaces = (namespace: RawNameSpaces): IssuerNameSpaces => {
-  return Array.from(namespace.entries()).reduce((prev, [nameSpace, entries]) => {
-    const mappedNamespace = namespaceToArray(entries)
-    return {
-      ...prev,
-      [nameSpace]: mappedNamespace,
-    }
-  }, {})
-}
-
-const mapDeviceNameSpaces = (namespace: Map<string, Map<string, unknown>>) => {
-  const entries = Array.from(namespace.entries()).map(([ns, attrs]) => {
-    return [ns, Object.fromEntries(attrs.entries())]
-  })
-  return Object.fromEntries(entries)
+  return new Map(Array.from(namespace.entries()).map(([nameSpace, entries]) => [nameSpace, namespaceToArray(entries)]))
 }
 
 /**
@@ -90,18 +77,11 @@ export const parseIssuerSigned = (
     )
   }
 
-  const issuerAuth = parseIssuerAuthElement(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    issuerSignedDecoded.get('issuerAuth'),
-    expectedDocType
-  )
+  const issuerAuth = parseIssuerAuthElement(issuerSignedDecoded.get('issuerAuth'), expectedDocType)
 
   const parsedIssuerSigned: IssuerSigned = {
     ...issuerSignedDecoded,
-    nameSpaces: mapIssuerNameSpaces(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      issuerSignedDecoded.get('nameSpaces')
-    ),
+    nameSpaces: mapIssuerNameSpaces(issuerSignedDecoded.get('nameSpaces')),
     issuerAuth,
   }
 
@@ -135,9 +115,7 @@ export const parseDeviceSigned = (
 
   const deviceSignedParsed: DeviceSigned = {
     ...deviceSignedDecoded,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-    nameSpaces: mapDeviceNameSpaces(deviceSignedDecoded.get('nameSpaces').data),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    nameSpaces: deviceSignedDecoded.get('nameSpaces').data,
     deviceAuth: parseDeviceAuthElement(deviceSignedDecoded.get('deviceAuth')),
   }
 
@@ -165,21 +143,15 @@ export const parseDeviceResponse = (encoded: Uint8Array): MDoc => {
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const parsedDocuments: IssuerSignedDocument[] = documents.map((doc: Map<string, any>): IssuerSignedDocument => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const docType = doc.get('docType')
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const issuerSigned = doc.get('issuerSigned')
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const deviceSigned = doc.get('deviceSigned')
 
     if (deviceSigned) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return parseDeviceSigned(deviceSigned, issuerSigned, docType)
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return parseIssuerSigned(issuerSigned, docType)
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return new MDoc(parsedDocuments, version, status)
 }

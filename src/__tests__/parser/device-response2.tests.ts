@@ -32,9 +32,9 @@ describe('parse DeviceResponse Example 2', () => {
     })
 
     it('should contain the first name', () => {
-      const givenName = parsed.documents[0]?.issuerSigned.nameSpaces['org.iso.18013.5.1']?.find(
-        (e) => e.elementIdentifier === 'given_name'
-      )?.elementValue
+      const givenName = parsed.documents[0]?.issuerSigned.nameSpaces
+        .get('org.iso.18013.5.1')
+        ?.find((e) => e.elementIdentifier === 'given_name')?.elementValue
       // expect(parsed).toMatchSnapshot();
       expect(givenName).toBe('John')
     })

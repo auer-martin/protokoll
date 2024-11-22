@@ -14,7 +14,7 @@ export type ReaderAuth = [
   Uint8Array | undefined,
 ]
 
-export type DeviceRequestNameSpaces = Record<string, Record<string, boolean>>
+export type DeviceRequestNameSpaces = Map<string, Map<string, boolean>>
 
 export class DeviceRequest {
   constructor(

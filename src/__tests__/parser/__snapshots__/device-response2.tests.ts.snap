@@ -785,11 +785,11 @@ MDoc {
             },
           },
         },
-        "nameSpaces": {
-          "org.alex.test": [
+        "nameSpaces": Map {
+          "org.alex.test" => [
             IssuerSignedItem {},
           ],
-          "org.iso.18013.5.1": [
+          "org.iso.18013.5.1" => [
             IssuerSignedItem {},
             IssuerSignedItem {},
             IssuerSignedItem {},
